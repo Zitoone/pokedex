@@ -1,0 +1,35 @@
+dictionnaire = {
+    "Flabébé": {
+        "Type": "Fée",
+        "Talent": "Flora voile / Symbiose",
+        "Taux de capture": "225",
+        "image": Image.open("flabébé.png"),
+    },
+    "Floette": {
+        "Type": "Fée",
+        "Talent": "Joli sourire / Garde magic",
+        "Taux de capture": "120",
+        "image": Image.open("Floette.png")
+    },
+    "Forgella": {
+        "Type": "Fée / Acier",
+        "Talent": "Brise Moule / Tempo Perso / Pickpocket",
+        "Taux de capture": "90",
+        "image": Image.open("Forgella.png")
+    },
+    "Lumivole": {
+        "Type": "Insecte",
+        "Talent": "Benêt / Lentiteintée / Farceur",
+        "Taux de capture": "150",
+        "image": Image.open("Lumivole.png")
+    },
+    "Sucreine": {
+        "Type": "Plante",
+        "Talent": "Feuille Garde / Prestance Royale",
+        "Taux de capture": "45",
+        "image": Image.open("Sucreine.png")
+    },
+}
+
+for nom in dictionnaire:
+    listbox.insert(tk.END, nom)

@@ -2,6 +2,8 @@ import tkinter as tk
 from PIL import ImageTk, Image
 from tkinter import messagebox
 
+bg="#E0B0FF"
+
 def afficher_details(event):
     selection = listbox.curselection()
     if selection:
@@ -23,20 +25,29 @@ def afficher_details(event):
 root = tk.Tk()
 root.title("POKEDEX Olivia")
 root.geometry("980x620")
-root.config(background="#E0B0FF")
+root.config(bg=bg)
 root.iconbitmap("pikachu.ico")
 
-title = tk.Label(root, text="♀ LES MEILLEURES FEMELLES ♀", padx=20, pady=50, font=("Helvetica bold", 20), bg="#E0B0FF", fg="purple")
+title = tk.Label(root, text="♀ LES MEILLEURES FEMELLES ♀", padx=20, pady=50, font=("Helvetica bold", 20), bg=bg, fg="purple")
 title.pack()
 
-frame1 = tk.Frame(root, bg="#E0B0FF", highlightbackground="purple", highlightthickness=3,height="300", width=100, bd=5, relief="raised")
-frame1.pack(side="left", padx=20, pady=20, fill=tk.BOTH, expand=True)
+frame1=tk.Frame(root, bg=bg, height=300, width=100)
+frame1.place(x=50, y=150)
 
-listbox = tk.Listbox(frame1, height=5, justify="center", bg="pink", font="Helvetica", fg="purple")
+listbox = tk.Listbox(frame1, height=7, justify="center", bg="pink", font="Helvetica", fg="purple")
 listbox.pack(side=tk.TOP, padx=10)
 
-label_image = tk.Label(frame1, bg="#E0B0FF")
+label_image = tk.Label(frame1, bg=bg)
 label_image.pack(padx=20, pady=20)
+
+class Pokemons:
+    def __init__(self, nom, type, talent, taux_de_capture, image):
+        self.pokemons={}
+        self.nom= nom
+        self.type=type
+        self.talent= talent
+        self.taux_de_capture= taux_de_capture
+        self.image= image
 
 dictionnaire = {
     "Flabébé": {
@@ -70,29 +81,54 @@ dictionnaire = {
         "image": Image.open("Sucreine.png")
     },
 }
-
 for nom in dictionnaire:
     listbox.insert(tk.END, nom)
 
-frame2 = tk.Frame(root, bg="pink", highlightbackground="purple", highlightthickness=3,height="300", width=100, bd=5, relief="raised")
-frame2.pack(side="top", fill=tk.NONE, expand=False)
+frame2 = tk.Frame(root, bg="#E0B0FF", highlightbackground="purple", highlightthickness=3,height="300", width=100, bd=5, relief="raised")
+frame2.place(x=400, y=150)
 
-
-label_info = tk.Label(frame2, bg="pink", text="Sélectionne une pokémone pour voir les détails.", font=("Helvetica", 14), fg="purple", bd=1)
+label_info = tk.Label(frame2, bg=bg, text="Tu peux sélectionner une pokémone pour voir ses détails\nou saisir une nouvelle ci-dessus", font=("Helvetica", 12), fg="purple", bd=1)
 label_info.pack(pady=10)
 
-new_pok=tk.Entry(frame2, fg="purple")
-user=tk.Label(frame2, text="Nom de ta pokemone", bg="pink")
-user.pack()
-new_pok.pack(pady=10)
+frame3= tk.Frame(root, bg=bg)
+frame3.place(x=600, y=300)
+
+def ajouter_pokemon():
+    nom=champ_nom.get()
+    type=champ_type.get()
+    talent=champ_talent.get()
+    taux_de_capture=champ_taux.get()
+    label_info.config(text=f"nom: {nom}\nType {type}\nTalent : {talent}\nTaux de capture : {taux_de_capture}")
+
+def add_to_listbox():
+    new_name = champ_nom.get()
+    if new_name:
+        listbox.insert(tk.END, new_name)
+
+title_ajout=tk.Label(frame3, bg=bg, text="Entre une nouvelle Pokemone")
+title_ajout.pack(pady=20)
+champ_nom=tk.Entry(frame3, fg="purple")
+add_name=tk.Label(frame3, text="Nom de ta pokemone", bg=bg)
+add_name.pack()
+champ_nom.pack(pady=2)
+champ_type=tk.Entry(frame3, fg="purple")
+add_type=tk.Label(frame3, text="Type", bg=bg)
+add_type.pack()
+champ_type.pack(pady=2)
+champ_talent=tk.Entry(frame3, fg="purple")
+add_talent=tk.Label(frame3, text="Talent", bg=bg)
+add_talent.pack()
+champ_talent.pack(pady=2)
+champ_taux=tk.Entry(frame3, fg="purple")
+add_taux=tk.Label(frame3, text="Taux de capture", bg=bg)
+add_taux.pack()
+champ_taux.pack(pady=2)
+enter=tk.Button(frame3, text="Ajouter", bg=bg, command=lambda:[ajouter_pokemon(),add_to_listbox()])
+enter.pack()
 
 listbox.bind("<<ListboxSelect>>", afficher_details)
 
-def bouton_clique():
-    messagebox.showinfo("Boite de dialogue", "A bientôt!!")
-   
-bouton=tk.Button(root, text="QUITTER", bg="#E0B0FF", command=bouton_clique)
-bouton.place(x=800, y=550)
-
+bouton=tk.Button(root, text="QUITTER", bg=bg, command=root.destroy)
+bouton.place(x=900, y=580)
 
 root.mainloop()
