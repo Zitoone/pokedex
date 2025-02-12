@@ -1,6 +1,6 @@
 import tkinter as tk
 from PIL import ImageTk, Image
-from tkinter import messagebox
+from tkinter import filedialog
 
 bg="#E0B0FF"
 
@@ -81,17 +81,17 @@ dictionnaire = {
         "image": Image.open("Sucreine.png")
     },
 }
-for nom in dictionnaire:
-    listbox.insert(tk.END, nom)
+for Nom in dictionnaire:
+    listbox.insert(tk.END, Nom)
 
-frame2 = tk.Frame(root, bg="#E0B0FF", highlightbackground="purple", highlightthickness=3,height="300", width=100, bd=5, relief="raised")
+frame2 = tk.Frame(root, bg=bg, highlightbackground="purple", highlightthickness=3,height="300", width=100, bd=5, relief="raised")
 frame2.place(x=400, y=150)
 
 label_info = tk.Label(frame2, bg=bg, text="Tu peux sélectionner une pokémone pour voir ses détails\nou saisir une nouvelle ci-dessus", font=("Helvetica", 12), fg="purple", bd=1)
 label_info.pack(pady=10)
 
 frame3= tk.Frame(root, bg=bg)
-frame3.place(x=600, y=300)
+frame3.place(x=440, y=300)
 
 def ajouter_pokemon():
     nom=champ_nom.get()
@@ -105,30 +105,41 @@ def add_to_listbox():
     if new_name:
         listbox.insert(tk.END, new_name)
 
-title_ajout=tk.Label(frame3, bg=bg, text="Entre une nouvelle Pokemone")
-title_ajout.pack(pady=20)
-champ_nom=tk.Entry(frame3, fg="purple")
+def download_image():
+    file_path=filedialog.askopenfilenames(filetypes=[("Image files", "*.jpg;*.jpeg;*.png;*.gif")])
+    if file_path:
+        image=Image.open(file_path)
+        image_resized = image.resize((250, 250))
+        image_resized = ImageTk.PhotoImage(image_resized)
+        dictionnaire[file_path]=image_resized
+
+champ_nom=tk.Entry(frame3, fg="purple", width=30, font="Arial", justify="center")
 add_name=tk.Label(frame3, text="Nom de ta pokemone", bg=bg)
 add_name.pack()
 champ_nom.pack(pady=2)
-champ_type=tk.Entry(frame3, fg="purple")
+champ_type=tk.Entry(frame3, fg="purple",width=30, font="Arial", justify="center")
 add_type=tk.Label(frame3, text="Type", bg=bg)
 add_type.pack()
 champ_type.pack(pady=2)
-champ_talent=tk.Entry(frame3, fg="purple")
+champ_talent=tk.Entry(frame3, fg="purple", width=30, font="Arial", justify="center")
 add_talent=tk.Label(frame3, text="Talent", bg=bg)
 add_talent.pack()
 champ_talent.pack(pady=2)
-champ_taux=tk.Entry(frame3, fg="purple")
+champ_taux=tk.Entry(frame3, fg="purple",width=30, font="Arial", justify="center")
 add_taux=tk.Label(frame3, text="Taux de capture", bg=bg)
 add_taux.pack()
 champ_taux.pack(pady=2)
-enter=tk.Button(frame3, text="Ajouter", bg=bg, command=lambda:[ajouter_pokemon(),add_to_listbox()])
-enter.pack()
+champ_image=tk.Entry(frame3, fg="purple")
+add_image=tk.Label(frame3, text="Télécharge sa photo", bg=bg)
+add_image.pack()
+champ_image.pack(pady=2)
+
+enter=tk.Button(frame3, text="Ajouter", bg=bg, fg="purple", command=lambda:[ajouter_pokemon(),add_to_listbox(),download_image()])
+enter.pack(pady=20)
 
 listbox.bind("<<ListboxSelect>>", afficher_details)
 
-bouton=tk.Button(root, text="QUITTER", bg=bg, command=root.destroy)
+bouton=tk.Button(root, text="QUITTER", bg=bg, fg="purple", command=root.destroy)
 bouton.place(x=900, y=580)
 
 root.mainloop()
